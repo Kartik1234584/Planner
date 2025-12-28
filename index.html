@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Focusly Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">⚡</div>
+        <div>
+          <h1>Focusly</h1>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#tasks" class="nav-item active">Dashboard</a>
+        <a href="#focus" class="nav-item">Focus</a>
+        <a href="#weekly-goals" class="nav-item">Goals</a>
+        <a href="#stats" class="nav-item">Analytics</a>
+      </nav>
+      <div class="sidebar-footer">
+        <p>Built for organized days.</p>
+        <div class="theme-toggle">
+          <label class="switch">
+            <input type="checkbox" id="themeToggle">
+            <span class="slider"></span>
+          </label>
+          <span>Dark mode</span>
+        </div>
+        <p class="credit">Made by Kartik Sadhu</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+          <p class="tagline">Everything you need in one place</p>
+        </div>
+        <div class="topbar-actions">
+          <div class="date" id="todayDate"></div>
+          <div class="date" id="currentTime"></div>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-text">
+          <h3>Plan, focus, and reflect.</h3>
+          <p>One dashboard to plan your day, stay focused, and reflect clearly.</p>
+        </div>
+        <div class="hero-metrics" id="heroMetrics"></div>
+      </section>
+
+      <section class="dashboard-grid">
+        <div class="column" id="left-column">
+          <article class="card" id="tasks">
+            <div class="card-header">
+              <div>
+                <p class="eyebrow">Today</p>
+                <h3>Daily Task List</h3>
+              </div>
+              <button class="ghost" id="clearTasks">Clear Done</button>
+            </div>
+            <form id="taskForm" class="inline-form">
+              <input type="text" id="taskTitle" placeholder="Task title" required />
+              <select id="taskCategory">
+                <option value="Work">Work</option>
+                <option value="Study">Study</option>
+                <option value="Personal">Personal</option>
+              </select>
+              <select id="taskPriority">
+                <option value="Low">Low</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="High">High</option>
+              </select>
+              <select id="taskStatus">
+                <option value="Todo" selected>Todo</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Done">Done</option>
+              </select>
+              <input type="time" id="taskDue" />
+              <button type="submit">Add</button>
+            </form>
+            <div class="task-list" id="taskList"></div>
+          </article>
+
+          <article class="card" id="weekly-goals">
+            <div class="card-header">
+              <div>
+                <p class="eyebrow">Weekly Sprint</p>
+                <h3>Weekly Goals</h3>
+              </div>
+            </div>
+            <form id="goalForm" class="inline-form">
+              <input type="text" id="goalTitle" placeholder="Add a weekly goal" required />
+              <button type="submit">Add Goal</button>
+            </form>
+            <div class="goals" id="goalList"></div>
+          </article>
+        </div>
+
+        <div class="column" id="center-column">
+          <article class="card focus-card" id="focus">
+            <div class="card-header">
+              <div>
+                <p class="eyebrow">Focus</p>
+                <h3>Pomodoro Timer</h3>
+              </div>
+              <div class="chip" id="sessionType">Focus</div>
+            </div>
+            <div class="timer">
+              <div class="ring" id="progressRing">
+                <div class="ring-inner">
+                  <div class="time" id="timerDisplay">25:00</div>
+                  <p class="sub">Stay in flow</p>
+                </div>
+              </div>
+              <div class="timer-controls">
+                <button id="startPause">Start</button>
+                <button class="ghost" id="stopTimer">Stop</button>
+                <button class="ghost" id="resetTimer">Reset</button>
+              </div>
+              <div class="timer-presets">
+                <button data-focus="25" data-break="5">25/5</button>
+                <button data-focus="50" data-break="10">50/10</button>
+                <button data-focus="90" data-break="20">90/20</button>
+              </div>
+              <p class="note">Focus and break sessions are logged automatically.</p>
+            </div>
+          </article>
+
+          <article class="card" id="stats">
+            <div class="card-header">
+              <div>
+                <p class="eyebrow">Insights</p>
+                <h3>Productivity Stats</h3>
+              </div>
+            </div>
+            <div class="charts">
+              <div class="chart-block">
+                <div class="chart-label">Tasks completed per day</div>
+                <canvas id="tasksChart" height="220"></canvas>
+              </div>
+              <div class="chart-block">
+                <div class="chart-label">Focus minutes per day</div>
+                <canvas id="focusChart" height="220"></canvas>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" id="summary">
+            <div class="card-header">
+              <div>
+                <p class="eyebrow">Snapshot</p>
+                <h3>Today Summary</h3>
+              </div>
+            </div>
+            <div class="quick-stats" id="todaySummary"></div>
+          </article>
+        </div>
+
+        <div class="column" id="right-column">
+          <article class="card" id="calendar-card">
+            <div class="card-header">
+              <div>
+                <p class="eyebrow">Month</p>
+                <h3>Mini Calendar</h3>
+              </div>
+            </div>
+            <div class="calendar" id="miniCalendar"></div>
+          </article>
+
+          <article class="card" id="quick-stats-card">
+            <div class="card-header">
+              <div>
+                <p class="eyebrow">Momentum</p>
+                <h3>Quick Stats</h3>
+              </div>
+            </div>
+            <div class="quick-stats" id="quickStats"></div>
+          </article>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <p>Made by <a href="https://www.linkedin.com/in/kartik-sadhu-8365b5378" target="_blank" rel="noopener noreferrer">Kartik Sadhu</a></p>
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
